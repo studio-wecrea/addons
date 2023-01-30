@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -21,7 +22,7 @@ class RegisteredUserController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Auth/Register');
+        return view('auth.register');
     }
 
     /**
@@ -35,13 +36,15 @@ class RegisteredUserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'firstname' => 'required|string|max:128',
+            'lastname' => 'required|string|max:128',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
+        $user = Customer::create([
+            'firstname' => $request->firstname,
+            'lastname' => $request->lastname,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
