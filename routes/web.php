@@ -1,8 +1,13 @@
 <?php
 
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminDashboardController;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
+use App\Http\Controllers\ConnexionController;
+use App\Http\Controllers\HomepageController;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,17 +20,24 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+    Route::get('/', [HomepageController::class, 'homepage'])
+    ->name('/');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+//require __DIR__.'/auth.php';
+
+Route::prefix('auth')->group(base_path('routes/auth.php'));
+
+Route::prefix('modules')->group(base_path('routes/modules.php'));
+Route::prefix('version')->group(base_path('routes/versions.php'));
+Route::prefix('invoices')->group(base_path('routes/invoices.php'));
+Route::prefix('platforms')->group(base_path('routes/platforms.php'));
+Route::prefix('categories')->group(base_path('routes/categories.php'));
+Route::prefix('reviews')->group(base_path('routes/reviews.php'));
+Route::prefix('support')->group(base_path('routes/support.php'));
+Route::prefix('customers')->group(base_path('routes/customers.php'));
+Route::prefix('employees')->group(base_path('routes/employees.php'));
+Route::prefix('admin')->group(base_path('routes/admin.php'));
+Route::prefix('orders')->group(base_path('routes/orders.php'));
+
+Route::prefix('cart')->group(base_path('routes/cart.php'));
