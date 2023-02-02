@@ -42,7 +42,7 @@ class OrderController extends Controller
         $customer = Auth::guard('webcustomers')->user();
         $modules = Module::orderBy('name')->get();
         $platforms = Platform::orderBy('name')->get();
-        $purchases = Purchase::where('customer_id', $customer->id)->get();
+        $purchases = Purchase::where('customer_id', $customer->id)->orderBy('created_at', 'DESC')->get();
         return view ('orders.history')->with(['customer'=> $customer, 'modules'=> $modules, 'platforms' => $platforms, 'purchases' => $purchases]);
     }
 }

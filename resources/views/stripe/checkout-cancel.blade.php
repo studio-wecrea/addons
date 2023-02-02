@@ -43,7 +43,7 @@
         <div class="mt-6 bg-white shadow rounded p-4 divide-y divide-gray-200 space-y-4 text-gray-600">
             <!-- single link -->
             <div class="space-y-1 pl-8">
-                <a href="#" class="text-sm relative hover:text-yellow-600 block font-medium capitalize transition">
+                <a href="{{route('customers.account')}}" class="text-sm relative hover:text-yellow-600 block font-medium capitalize transition">
                     <span class="absolute -left-8 top-0 text-sm">
                         <i class="far fa-address-card"></i>
                     </span>
@@ -117,47 +117,91 @@
     </div>
     <!-- sidebar end -->
     
-
-        <!--  old purchases -->
+    <!-- Profile info -->
+    <div class="col-span-9 grid grid-cols-1 gap-4">
+        <div class="mb-4">
+        <p class="text-base text-gray-600">Payment cancelled !</p>
+        </div>
+        
+        
+        <!--  new purchase -->
      <div class="col-span-9 space-y-4">
      <div class="py-4 flex items-center gap-3">
         <span class="text-sm text-gray-400">
             <i class="fas fa-chevron-right"></i>
         </span>
-        <p class="text-sm text-gray-600 font-medium">Old Purchases</p>
+        <p class="text-gray-600 font-medium">Newest Purchase</p>
+    </div>
+        
+        <!-- single purchase -->
+        <div class="flex items-center justify-between gap-p p-4 border border-gray-200 rounded">
+            <h2 class="text-md text-gray-800 font-medium uppercase">
+                    {{$order->id}}
+            </h2>
+            <!-- order date -->
+            <h2 class="text-md text-gray-800 font-medium uppercase">
+                    {{$order->created_at->format('Y-m-d')}}
+            </h2>
+            <!-- order date end -->
+
+            <!-- wishlist content -->
+            <div class="w-1/3">
+                <h2 class="text-md text-gray-800 font-medium uppercase">
+                    {{$order->status}}
+                </h2>
+    
+            </div>
+            
+            <!-- wishlist content end -->
+
+            <div class="text-md text-primary font-semibold">{{$order->total_price}} €</div>
+            <a href="#" class="text-sm px-6 py-2 text-center text-sm text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium">View details</a>
+            
+        </div>
+        <!-- single wishlist end -->
+        
+    </div>
+    <!-- new purchase end -->
+        <!--  new purchase -->
+     <div class="col-span-9 space-y-4">
+     <div class="py-4 flex items-center gap-3">
+        <span class="text-sm text-gray-400">
+            <i class="fas fa-chevron-right"></i>
+        </span>
+        <p class="text-gray-600 font-medium">Old Purchases</p>
     </div>
 
         @foreach($purchases as $purchase)
         <!-- single purchase -->
-        <div class="flex items-center justify-between gap-p p-6 border border-gray-200 rounded">
-            <h2 class="text-sm text-gray-800 font-medium uppercase">
+        <div class="flex items-center justify-between gap-p p-4 border border-gray-200 rounded">
+            <h2 class="text-md text-gray-800 font-medium uppercase">
                     {{$purchase->id}}
             </h2>
             <!-- order date -->
-            <h2 class="text-sm text-gray-800 font-medium uppercase">
+            <h2 class="text-md text-gray-800 font-medium uppercase">
                     {{$purchase->created_at->format('Y-m-d')}}
             </h2>
             <!-- order date end -->
 
-            <!-- purchase status -->
+            <!-- wishlist content -->
             <div class="w-1/3">
-                <h2 class="text-sm text-gray-800 font-medium uppercase">
+                <h2 class="text-md text-gray-800 font-medium uppercase">
                     {{$purchase->status}}
                 </h2>
     
             </div>
             
-            <!-- purchase status end -->
+            <!-- wishlist content end -->
 
-            <div class="text-sm text-primary font-semibold">{{$purchase->total_price}} €</div>
-            <a href="#" class="text-sm px-6 py-2 text-center text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium">View details</a>
+            <div class="text-md text-primary font-semibold">{{$purchase->total_price}} €</div>
+            <a href="#" class="text-sm px-6 py-2 text-center text-sm text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium">View details</a>
             
         </div>
-        <!-- single purchase end -->
+        <!-- single wishlist end -->
         @endforeach
     
     </div>
-    <!-- old purchases end -->
+    <!-- new purchase end -->
         
     </div>
 

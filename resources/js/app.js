@@ -11,6 +11,8 @@ import { createApp } from 'vue';
 import AddToCart from './Components/AddToCart.vue';
 import NavbarCart from './Components/NavbarCart.vue';
 import ShoppingCart from './Components/ShoppingCart.vue';
+import CartSidebar from './Components/CartSidebar.vue';
+import StripeCheckout from './Components/StripeCheckout.vue';
 import Toaster from '@meforma/vue-toaster';
 
 
@@ -23,6 +25,8 @@ app.use(Toaster);
 app.component('AddToCart', AddToCart);
 app.component('NavbarCart', NavbarCart);
 app.component('ShoppingCart', ShoppingCart);
+app.component('CartSidebar', CartSidebar);
+app.component('StripeCheckout', StripeCheckout);
 
 app.mount('#app');
 

@@ -41,3 +41,4 @@ Route::prefix('admin')->group(base_path('routes/admin.php'));
 Route::prefix('orders')->group(base_path('routes/orders.php'));
 
 Route::prefix('cart')->group(base_path('routes/cart.php'));
+Route::prefix('stripe')->group(base_path('routes/stripe.php'));

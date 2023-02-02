@@ -2,26 +2,18 @@ import { ref } from "vue";
 
 export default function useModule() {
     const modules = ref([]);
-    const platforms = ref([]);
+    const cartCount = ref(0);
 
     const getModules = async() => {
         let response = await axios.get('/cart/index');
             modules.value = response.data.cartContent;
-            
-        
-    }
-    const getPlatforms = async() => {
-        let response = await axios.get('/cart/index');
-        platforms.value = response.data.cartContent;
-            
-        
+            cartCount.value = response.data.cartCount;        
     }
 
     const add = async(moduleId) => {
 
         let response = await axios.post('/cart/store', {
             moduleId: moduleId,
-            platformId: platformId
         });
         return response.data.count;
 
@@ -40,9 +32,8 @@ export default function useModule() {
         add,
         getCount,
         modules,
-        platforms,
         getModules,
-        getPlatforms,
-        destroyModule
+        destroyModule,
+        cartCount
     }
 }

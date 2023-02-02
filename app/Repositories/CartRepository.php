@@ -3,20 +3,19 @@
 namespace App\Repositories;
 
 use App\Models\Module;
-use App\Models\Platform;
 use Illuminate\Support\Facades\Auth;
 
 class CartRepository
 {
-    public function add(Module $module, Platform $platform)
+    public function add(Module $module)
     {
-        \Cart::add(array(
+        \Darryldecode\Cart\Facades\CartFacade::add(array(
             'id' => $module->id,
             'name' => $module->name,
             'price' => $module->price,
             'quantity' => 1,
             'attributes' => array(),
-            'associatedModel' => $module, $platform
+            'associatedModel' => $module
         ));
 
         return $this->count();
@@ -24,7 +23,7 @@ class CartRepository
 
     public function content()
     {
-        return \Cart::getContent();
+        return \Darryldecode\Cart\Facades\CartFacade::getContent();
 
     }
 
@@ -35,6 +34,30 @@ class CartRepository
 
     public function remove($id)
     {
-        return \Cart::remove($id);
+        return \Darryldecode\Cart\Facades\CartFacade::remove($id);
+    }
+
+    public function total() 
+    {
+        return \Darryldecode\Cart\Facades\CartFacade::getTotal();
+    }
+
+    public function jsonOrderItems()
+    {
+        $this
+            ->content()
+            ->map(function($item) {
+                return [
+                    'name' => $item->name,
+                    'quantity' => $item->quantity,
+                    'price' => $item->price,
+                ];
+            })
+            ->toJson();
+    }
+
+    public function clear()
+    {
+        \Darryldecode\Cart\Facades\CartFacade::clear();
     }
 }
