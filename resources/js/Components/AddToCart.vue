@@ -23,10 +23,8 @@
             let cartCount = await add(moduleId);
             emitter.emit('cartCountUpdated', cartCount);
             toaster.success('Module ajouté au panier!');
-
+            
     }
-
-
 
 
 // import {Store} from '../store/Store'

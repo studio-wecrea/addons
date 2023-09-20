@@ -50,9 +50,9 @@ class Customer extends Authenticatable
     /**
      * Get the modules associated with the customer.
      */
-    public function module()
+    public function modules()
     {
-        return $this->hasMany(Module::class, 'id_module');
+        return $this->belongsToMany(Module::class, 'id_module');
     }
 
     /**
@@ -94,5 +94,10 @@ class Customer extends Authenticatable
     public function customerPurchases()
     {
         return $this->belongsToMany(Purchase::class, 'id_customer');
+    }
+
+    public function moduleWishlist()
+    {
+        return $this->belongsToMany(Wishlist::class, 'id_module');
     }
 }

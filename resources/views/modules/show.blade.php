@@ -15,7 +15,7 @@
     <!-- breadcrums end -->
 
     <!-- module view-->
-    <div class="container grid grid-cols-2 gap-6">
+    <div class="container grid grid-cols-2 gap-8">
         <!-- module image -->
         <div>
             <img src="{{ url('/images/modules/module-1.jpg') }}" class="w-full h-50 rounded">
@@ -66,12 +66,8 @@
             </p>
             <!-- cart button -->
             <div class="flex gap-3 border-b border-gray-200 pb-5 mt-6">
-                <a href="#" class="text-sm bg-primary border border-primary text-white px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-transparent hover:text-primary transition">
-                    <i class="fas fa-shopping-bag text-sm "></i>Add to cart
-                </a>
-                <a href="#" class="text-sm border border-gray-300 text-gray-600 px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:text-primary transition">
-                    <i class="fas fa-heart text-sm "></i>Wishlist
-                </a>
+                <button-add-to-cart :module-id="{{ $module->id }}"></button-add-to-cart>
+                <add-to-wishlist :module-id="{{ $module->id }}"></add-to-wishlist>
             </div>
             <!-- cart button end -->
 
@@ -93,20 +89,29 @@
     </div>
 
     <!-- module view end -->
-    <div class="container pb-16">
-        <div class="border-b border-gray-200">
+    <div class=" container pb-16">
+    <div class="sm:hidden">
+                <label for="tabSelect" class="sr-only">Select a tab</label>
+                <!-- Use an "onChange" listener to redirect the user to the selected tab URL. -->
+                <select id="tabSelect" name="tabSelect" class="block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base  sm:text-sm">
+                  <option value="reviews" selected>Reviews</option>
+                  <option value="faq">FAQ</option>
+                  <option value="license">Licence</option>
+                </select>
+              </div>
+        <div class="border-b border-gray-200 mb-4">
             
-            <div class="-mb-px flex space-x-8" aria-orientation="horizontal" role="tablist">
+            <nav class="-mb-px flex space-x-8" aria-orientation="horizontal" role="tablist">
               <!-- Selected: "border-indigo-600 text-indigo-600", Not Selected: "border-transparent text-gray-700 hover:text-gray-800 hover:border-gray-300" -->
             
-              <button id="tab-reviews" class="border-transparent text-gray-700 hover:text-gray-800 hover:border-gray-300 whitespace-nowrap border-b-2 py-6 text-sm font-medium" aria-controls="tab-panel-reviews" role="tab" type="button">Customer Reviews</button>
-              <button id="tab-faq" class="border-transparent text-gray-700 hover:text-gray-800 hover:border-gray-300 whitespace-nowrap border-b-2 py-6 text-sm font-medium" aria-controls="tab-panel-faq" role="tab" type="button">FAQ</button>
-              <button id="tab-license" class="border-transparent text-gray-700 hover:text-gray-800 hover:border-gray-300 whitespace-nowrap border-b-2 py-6 text-sm font-medium" aria-controls="tab-panel-license" role="tab" type="button">License</button>
+              <a href="javascript:void(0)" data-tab="reviews" class="tab-link border-transparent text-gray-700 hover:text-gray-800 hover:border-gray-300 whitespace-nowrap border-b-2 py-6 text-sm font-medium" aria-controls="tab-panel-reviews" role="tab" >Customer Reviews</a>
+              <a href="javascript:void(0)" data-tab="faq" class="tab-link border-transparent text-gray-700 hover:text-gray-800 hover:border-gray-300 whitespace-nowrap border-b-2 py-6 text-sm font-medium" aria-controls="tab-panel-faq" role="tab">FAQ</a>
+              <a href="javascript:void(0)" data-tab="license" class="tab-link border-transparent text-gray-700 hover:text-gray-800 hover:border-gray-300 whitespace-nowrap border-b-2 py-6 text-sm font-medium" aria-controls="tab-panel-license" role="tab" >License</a>
               
-            </div>
+            </nav>
         </div>
          <!-- 'Customer Reviews' panel, show/hide based on tab state -->
-         <div id="tab-panel-reviews" class="-mb-10" aria-labelledby="tab-reviews" role="tabpanel" tabindex="0">
+         <div id="tab-panel-reviews" class="-mb-10 tab-content" aria-labelledby="tab-reviews" role="tabpanel" tabindex="0" data-tab-content="reviews">
             <h3 class="sr-only">Customer Reviews</h3>
 
             <div class="flex space-x-4 text-sm text-gray-500">
@@ -205,7 +210,7 @@
           </div>
 
           <!-- 'FAQ' panel, show/hide based on tab state -->
-          <div id="tab-panel-faq" class="text-sm text-gray-500" aria-labelledby="tab-faq" role="tabpanel" tabindex="0">
+          <div id="tab-panel-faq" class="text-sm text-gray-500 tab-content hidden active" aria-labelledby="tab-faq" role="tabpanel" tabindex="0" data-tab-content="faq">
             <h3 class="sr-only">Frequently Asked Questions</h3>
 
             <dl>
@@ -224,7 +229,7 @@
           </div>
 
           <!-- 'License' panel, show/hide based on tab state -->
-          <div id="tab-panel-license" class="pt-10" aria-labelledby="tab-license" role="tabpanel" tabindex="0">
+          <div id="tab-panel-license" class="pt-10 tab-content hidden active" aria-labelledby="tab-license" role="tabpanel" tabindex="0" data-tab-content="license">
             <h3 class="sr-only">License</h3>
 
             <div class="prose prose-sm max-w-none text-gray-500">
@@ -260,7 +265,6 @@
     <!-- module view details -->
 
     <!-- module view details end -->
-
 
 
 @endsection

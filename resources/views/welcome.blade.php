@@ -269,11 +269,11 @@
     <!-- modules wrapper end -->
 
     <!-- ad section -->
-    <div class="container pb-16">
+    <!-- <div class="container pb-16">
         <a href="#">
             <img src="{{ url('/images/promo.jpg') }}" class="w-full h-64">
         </a>
-    </div>
+    </div> -->
     <!-- ad section end -->
 
 @endsection

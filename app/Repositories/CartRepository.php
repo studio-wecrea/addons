@@ -27,6 +27,27 @@ class CartRepository
 
     }
 
+    public function increase($id) 
+    {
+        \Darryldecode\Cart\Facades\CartFacade::update($id, [
+            'quantity' => +1
+        ]);
+    }
+
+    public function decrease($id) 
+    {
+        $item = \Darryldecode\Cart\Facades\CartFacade::get($id);
+
+        if ($item->quantity === 1) {
+            $this->remove($id);
+            return;
+        }
+
+        \Darryldecode\Cart\Facades\CartFacade::update($id, [
+            'quantity' => -1
+        ]);
+    }
+
     public function count()
     {
         return $this->content()->sum('quantity');

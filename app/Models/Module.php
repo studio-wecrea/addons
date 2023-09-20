@@ -61,6 +61,16 @@ class Module extends Model
         return $this->belongsToMany(Category::class, "id_category")->withPivot('name');
     }
 
+    public function customers()
+    {
+        return $this->belongsToMany(Customer::class, "id_customer");
+    }
+
+    public function customerWishlist()
+    {
+        return $this->belongsToMany(Wishlist::class, "id_customer");
+    }
+
     /**
      * Get the license record associated with the module.
      */
@@ -109,6 +119,11 @@ class Module extends Model
     public function invoices()
     {
         return $this->hasMany(Invoice::class, 'invoice_id');
+    }
+
+    public function getFormattedPriceAttribute()
+    {
+        return str_replace('.', ',', $this->price / 100) . ' €';
     }
 
 

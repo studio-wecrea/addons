@@ -5,8 +5,10 @@
         <!-- checkout form -->
         <div class="col-span-8 space-y-4">
         
-            <div class="w-full grid grid-cols-9 bg-gray-100 border border-gray-200 py-2 px-10 rounded">
-                <div class="col-span-7"><h5 class=" text-gray-800 font-medium">Product</h5></div>
+            <div class="w-full grid grid-cols-12 gap-12 bg-gray-100 border border-gray-200 py-2 text-left px-10 rounded">
+                <div class="col-span-5"><h5 class=" text-gray-800 font-medium">Product</h5></div>
+                <div class="col-span-2"><h5 class=" text-gray-800 font-medium">Quantity</h5></div>
+                <div class="col-span-2"><h5 class=" text-gray-800 font-medium">Unit Price</h5></div>
                 <div class="col-span-2"><h5 class="text-gray-800 font-medium">Total</h5></div>
                 
                 
@@ -16,15 +18,16 @@
         <div class="space-y-4">
     
         <!-- single cart item -->
-        <div v-for="module in modules" :key="module.id" class="grid grid-cols-9 flex items-center justify-between gap-p py-4 pl-8 pr-10 border border-gray-200 rounded">
+        <div v-for="module in modules" :key="module.id" class="grid grid-cols-12 flex items-center justify-between gap-14 py-4 px-10 border border-gray-200 rounded">
             <!-- cart item image -->
             <div class="col-span-2 w-28 flex-shrink-0">
                 <img :src="module.associatedModel.image" class="h-28 w-28 object-cover rounded">
+                
             </div>
             <!-- cart item image end -->
 
             <!-- cart item content -->
-            <div  class="col-span-5">
+            <div  class="col-span-3 p-4">
                 <h2 class="text-gray-800 text-xl font-medium uppercase" v-text="module.name"> 
                 </h2>
                 <p class="text-gray-500 text-sm">
@@ -34,10 +37,26 @@
                     
                 </p>
             </div>
+        
+            <div class="col-span-2 flex items-center gap-2">
+            <button
+                v-on:click.prevent="decrease(module.id)"
+            >
+                -
+            </button>
+                <input :value="module.quantity" class="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center text-center justify-center cursor-pointer shadow-sm text-gray-600">
+            <button
+                v-on:click.prevent="increase(module.id)"
+            >
+                +
+            </button>
+            </div>
+            
             
             <!-- cart item content end -->
 
-            <div class="col-span-1 text-primary text-lg font-semibold">{{ module.associatedModel.price }} €</div>
+            <div class="col-span-2 text-primary text-md font-semibold">{{ formatPrice(module.price) }}</div>
+            <div class="col-span-2 text-primary text-md font-semibold">{{ formatPrice(module.associatedModel.price) }}</div>
             
             <div v-on:click.prevent="destroy(module.id)" class="col-span-1 text-right text-gray-600 cursor-pointer hover:text-primary">
                 <i class="fas fa-trash"></i>
@@ -105,14 +124,27 @@
 import useModule from '../Composables/modules';
 import { onMounted, computed } from 'vue';
 import emitter from 'tiny-emitter/instance.js';
+import { formatPrice } from '@/helpers';
 
 const {
     modules,
     getModules,
+    increaseQuantity,
+    decreaseQuantity,
     destroyModule,
     cartCount
     
 } = useModule()
+
+const increase = async(id) => {
+    await increaseQuantity(id);
+    await getModules();
+};
+
+const decrease = async(id) => {
+    await decreaseQuantity(id);
+    await getModules();
+};
 
 const cartTotal = computed(() => {
     let price = Object.values(modules.value).reduce((acc, module) => acc += module.associatedModel.price * module.quantity, 0);

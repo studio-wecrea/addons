@@ -17,3 +17,6 @@ Route::get('/stripe', [OrderController::class, 'stripe'])
 
 Route::get('/history', [OrderController::class, 'history'])
         ->name('orders.history');
+
+Route::get('/cancellations', [OrderController::class, 'cancellations'])
+        ->name('orders.cancellations');

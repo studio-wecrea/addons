@@ -24,6 +24,14 @@ export default function useModule() {
         return response.data.count;
     }
 
+    const increaseQuantity = async(id) => {
+        await axios.get('/cart/increase' + id);
+    }
+
+    const decreaseQuantity = async(id) => {
+        await axios.get('/cart/decrease' + id);
+    }
+
     const destroyModule = async(id) => {
         await axios.delete('/cart/destroy' + id )
     }
@@ -34,6 +42,8 @@ export default function useModule() {
         modules,
         getModules,
         destroyModule,
-        cartCount
+        cartCount,
+        increaseQuantity,
+        decreaseQuantity
     }
 }

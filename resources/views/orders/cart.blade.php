@@ -21,7 +21,7 @@
             <div class="w-full grid grid-cols-4 bg-gray-100 border border-gray-200 py-2 px-6 rounded">
                 <h5 class="ml-4 text-gray-800 font-medium w-1/4">Product</h5>
                 <h5 class="text-gray-800 font-medium w-1/4"></h5>
-                <h5 class="text-gray-800 font-medium w-1/4"></h5>
+                <h5 class="text-gray-800 font-medium w-1/4">Quantity</h5>
                 <h5 class="ml-8 text-gray-800 font-medium w-1/4">Total</h5>
             </div>
         

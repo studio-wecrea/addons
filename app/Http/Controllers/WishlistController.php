@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Module;
 use App\Models\Platform;
-use App\Repositories\CartRepository;
+use App\Models\Wishlist;
+use App\Repositories\WishlistRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class CartController extends Controller
+class WishlistController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,12 +18,12 @@ class CartController extends Controller
      */
     public function index()
     {
-        $cartContent = (new CartRepository())->content();
-        $cartCount = (new CartRepository())->count();
+        $wishlistContent = (new WishlistRepository())->content();
+        $wishlistCount = (new WishlistRepository())->count();
 
         return response()->json([
-            'cartContent' => $cartContent,
-            'cartCount' => $cartCount
+            'wishlistContent' => $wishlistContent,
+            'wishlistCount' => $wishlistCount
         ]);
     }
 
@@ -33,9 +35,21 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
+
+        $customer = Auth::guard('webcustomers')->user();
         $module = Module::where('id', $request->moduleId)->first();
         $platform = Platform::where('id', $request->platformId)->first();
-        $count = (new CartRepository())->add($module, $platform);
+        $count = (new WishlistRepository())->add($module, $platform);
+        
+        if(Wishlist::where('module_id', $module->id)->where('customer_id', $customer->id)->doesntExist())
+        {
+            $wishlist = new Wishlist();
+            $wishlist->customer_id = $customer->id;
+            $wishlist->module_id = $module->id;
+            $wishlist->save();
+        }
+    
+
 
         return response()->json([
             'count' => $count
@@ -50,7 +64,14 @@ class CartController extends Controller
      */
     public function show($id)
     {
-        //
+        
+        // $customer = Auth::guard('webcustomers')->user();
+        // $wishlists = Wishlist::findOfail($id)->where('customer_id', '=', $customer->id);
+        // $module = Module::join('wishlist', function ($join){
+        //     $join->on('modules.id', '=', 'wishlist.module_id');
+        // })->get();
+
+        // return view('orders.wishlist')->with(['wishlists'=> $wishlists, 'module' => $module]);
     }
 
     /**
@@ -73,22 +94,12 @@ class CartController extends Controller
      */
     public function destroyModule($id)
     {
-        (new CartRepository())->remove($id);
-    }
-
-    public function increase($id)
-    {
-        (new CartRepository())->increase($id);
-    }
-
-    public function decrease($id)
-    {
-        (new CartRepository())->decrease($id);
+        (new WishlistRepository())->remove($id);
     }
 
     public function count()
     {
-        $count = (new CartRepository())->count();
+        $count = (new WishlistRepository())->count();
 
         return response()->json([
             'count' => $count
