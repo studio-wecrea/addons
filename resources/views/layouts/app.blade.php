@@ -9,7 +9,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://js.stripe.com/v3/"></script>
     <!-- <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/css/custom.css','resources/js/app.js'])
 </head>
 
     <body id="app">

@@ -1,6 +1,6 @@
    <!-- footer -->
    <footer class="bg-white pt-10 pb-12 border-t border-gray-100 pb-16 items-start">
-        <div class="container grid grid-cols-3">
+        <div class="container grid grid-cols-1 md:grid-cols-3">
             <!-- footer text -->
             <div class="col-span-1 space-y-4">
                 <img src="{{ url('/images/wecrea-addons-logo.png') }}" class="h-16 w-30">
@@ -25,7 +25,7 @@
             <!-- footer text end -->
 
             <!-- footer links -->
-            <div class="col-span-2 grid grid-cols-2 gap-8">
+            <div class="col-span-2 mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div class="grid grid-cols-2 gap-8">
                     <div>
                         <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wider">Solutions</h3>
@@ -47,7 +47,7 @@
                     </div>
 
                 </div>
-                <div class="grid grid-cols-2 gap-8">
+                <div class="hidden lg:block lg:grid lg:grid-cols-2 gap-8">
                     <div>
                         <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wider">Solutions</h3>
                         <div class="mt-4 space-y-4">
@@ -77,7 +77,7 @@
     <!-- copyright -->
     <div class="bg-yellow-900 py-4">
         <div class="container flex items-center justify-between">
-            <p class="text-white text-sm">© 2022 WECREA - Tous droits réservés.</p>
+            <p class="text-white text-xs md:text-sm">© 2022 WECREA - Tous droits réservés.</p>
             <div class="inline-flex">
                 <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="32" height="32" viewBox="0 0 48 48">
                     <path fill="#1565C0" d="M45,35c0,2.209-1.791,4-4,4H7c-2.209,0-4-1.791-4-4V13c0-2.209,1.791-4,4-4h34c2.209,0,4,1.791,4,4V35z"></path>

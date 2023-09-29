@@ -9,6 +9,7 @@ use App\Models\Module;
 use App\Models\ModuleCategory;
 use App\Models\Platform;
 use App\Models\Purchase;
+use App\Services\FilteringService;
 use App\Services\MediaService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,10 +19,17 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ModuleController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        if(empty($request->all()) )
+        {
+            $modules = Module::orderBy('name')->get();
+        }
+        else
+        {
+            $modules = FilteringService::filterByCategory($request);
+        }
         
-        $modules = Module::orderBy('name')->get();
         $customer = Auth::guard('webcustomers')->user();
         return view('modules.index')->with(['customer' => $customer,
         'modules'=>$modules]);

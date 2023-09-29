@@ -209,4 +209,25 @@ btnList.onclick = function() {
  * 
  * ***/
 
+window.onload = function viewPassword()
+  {
+    const inputPassword = document.getElementById('password');
+    const inputPassword_repetition = document.getElementById('password_confirmation');
+    if(inputPassword.type == "password")
+    {
+      inputPassword.type = "text";
+      inputPassword_repetition.type = "text";
+      document.getElementById('eye-close').style.display="block";
+      document.getElementById('eye-open').style.display="none";
+
+    }
+    else{
+      inputPassword.type = "password";
+      inputPassword_repetition.type = "password";
+      document.getElementById('eye-close').style.display="none";
+      document.getElementById('eye-open').style.display="block";
+    }
+  }
+
+
 
