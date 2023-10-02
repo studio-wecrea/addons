@@ -28,7 +28,7 @@
             <div class="col-span-2 mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div class="grid grid-cols-2 gap-8">
                     <div>
-                        <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wider">Solutions</h3>
+                        <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wider">Solution</h3>
                         <div class="mt-4 space-y-4">
                             <a href="#" class="text-sm text-gray-500 hover:text-gray-900 block">Marketing</a>
                             <a href="#" class="text-sm text-gray-500 hover:text-gray-900 block">Analytics</a>
