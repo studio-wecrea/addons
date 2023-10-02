@@ -1,5 +1,5 @@
    <!-- footer -->
-   <footer class="bg-white pt-10 pb-12 border-t border-gray-100 pb-16 items-start">
+   <footer class=" bg-white pt-10 pb-12 border-t border-gray-100 pb-16 items-start">
         <div class="container grid grid-cols-1 md:grid-cols-3">
             <!-- footer text -->
             <div class="col-span-1 space-y-4">
