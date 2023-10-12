@@ -10,6 +10,41 @@ use Illuminate\Http\Request;
 class FilteringService
 
 {
+    public static function multiFiltering(Request $request)
+    {
+        $selectedCategories = $request->input('categories', []);
+        $selectedPlatforms = $request->input('platforms', []);
+        $minPrice = $request->input('minprice');
+        $maxPrice = $request->input('maxprice');
+        $perPage = 10;
+
+     
+
+        $filteredModules = Module::join('categories_modules', 'modules.id', '=', 'categories_modules.module_id')
+        ->join('categories', 'categories.id', '=', 'categories_modules.category_id')
+        ->join('platforms', 'modules.platform_id', '=', 'platforms.id')
+        ->where(function ($query) use ($selectedCategories, $selectedPlatforms, $minPrice, $maxPrice) {
+            $query->whereIn('categories.id', $selectedCategories)
+                  ->orWhereIn('platforms.id', $selectedPlatforms);
+                  if ($minPrice !== null || $maxPrice !== null) {
+                    $query->whereBetween('modules.price', [$minPrice, $maxPrice]);
+                }
+        })
+        ->distinct()
+        ->paginate($perPage, ['modules.*']);
+
+        // $filteredModules = Module::whereHas('categories', function ($query) use ($selectedCategories) {
+        //     $query->whereIn('categories.id', $selectedCategories);
+        // })
+        // ->whereHas('platforms', function ($query) use ($selectedPlatforms) {
+        //     $query->whereIn('id', $selectedPlatforms);
+        // })
+        // ->get();
+
+        // Handle the filtered data as needed...
+
+        return $filteredModules;
+    }
 
     public static function filterByCategory(Request $request)
     {

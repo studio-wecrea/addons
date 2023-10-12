@@ -27,6 +27,7 @@ class Module extends Model
         'tags',
         'image',
         'video',
+        'file',
         'platform_id'
     ];
 
@@ -38,6 +39,7 @@ class Module extends Model
         'tags' => null,
         'image' => null,
         'video' => null,
+        'file' => null,
         
     ];
 
@@ -48,6 +50,12 @@ class Module extends Model
     {
         return $this->belongsTo(Platform::class, "id_platform");
     }
+
+    public function platforms()
+    {
+        return $this->belongsTo(Platform::class, "platform_id");
+    }
+    
 
     public function categories() 
     {

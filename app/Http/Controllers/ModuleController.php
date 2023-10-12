@@ -21,18 +21,31 @@ class ModuleController extends Controller
 {
     public function index(Request $request)
     {
-        if(empty($request->all()) )
-        {
-            $modules = Module::orderBy('name')->get();
-        }
-        else
-        {
-            $modules = FilteringService::filterByCategory($request);
-        }
-        
         $customer = Auth::guard('webcustomers')->user();
-        return view('modules.index')->with(['customer' => $customer,
-        'modules'=>$modules]);
+        $modules = Module::orderBy('name')->get();
+        $categories = Category::withCount('modules')->get();
+        $platforms = Platform::all();
+        $selectedCategories = $request->input('categories', []);
+        $selectedPlatforms = $request->input('platforms', []);
+       
+        $filteredModules = FilteringService::multiFiltering($request);
+
+        // $modulesnumbers = Category::withCount('modules')->get();
+
+        return view('modules.index', compact('customer','modules', 'categories', 'platforms', 'filteredModules', 'selectedCategories', 'selectedPlatforms'));
+
+        // if(empty($request->all()) )
+        // {
+        //     $modules = Module::orderBy('name')->get();
+        // }
+        // else
+        // {
+        //     $modules = FilteringService::filterByCategory($request);
+        // }
+        
+        // $customer = Auth::guard('webcustomers')->user();
+        // return view('modules.index')->with(['customer' => $customer,
+        // 'modules'=>$modules]);
     }
 
     /**
@@ -64,6 +77,7 @@ class ModuleController extends Controller
         $vdata = $request->validated();
 
         $image = MediaService::upload($vdata['image']);
+        $file = MediaService::uploadFile($vdata['file']);
         // $video = MediaService::upload($vdata['video']);
 
         $module = Module::create([
@@ -71,6 +85,7 @@ class ModuleController extends Controller
             'description' => $vdata['description'],
             'price' => $vdata['price'] ,
             'image' => $image,
+            'file' => $file,
             'platform_id' => $vdata['platform']
             // 'video' => $video
         ]);
@@ -86,6 +101,7 @@ class ModuleController extends Controller
 
     public function edit($id)
     {
+        
         $module = Module::findOrFail($id);
         $platforms = Platform::orderBy('name')->get();
         $categories = Category::orderBy('name')->get();
@@ -99,9 +115,12 @@ class ModuleController extends Controller
         $module= Module::findOrFail($id);
 
         $vdata= $request->validated();
-    
 
         if (isset($vdata['image'])){
+            if (empty($module->image)){
+                $image_url = MediaService::uploadFile($vdata['image']);
+                $module->image = $image_url;
+            }
             Storage::delete($module->image);
             $image_url = MediaService::upload($vdata['image']);
             $module->image = $image_url;
@@ -111,6 +130,18 @@ class ModuleController extends Controller
             $video_url = MediaService::upload($vdata['video']);
             $module->video = $video_url;
         }
+        if (isset($vdata['file'])){
+
+            if (empty($module->file)){
+                $file_url = MediaService::uploadFile($vdata['file']);
+                $module->file = $file_url;
+            }
+            
+            Storage::delete($module->file);
+            $file_url = MediaService::uploadFile($vdata['file']);
+            $module->file = $file_url;
+
+        } 
 
         $module->name = $vdata['name'];
         $module->description = $vdata['description'];
@@ -129,14 +160,16 @@ class ModuleController extends Controller
     public function delete($id)
     {
         $module = Module::findOrFail($id);
-        if (!empty($module->image) || !empty($module->video) ){
+        if (!empty($module->image) || !empty($module->video) || !empty($module->file) ){
             $filePathImage = explode('/storage', $module->image);
             $filePathVideo = explode('/storage', $module->video);
+            $filePathFile = explode('/storage', $module->file);
 
             $pathImage = '/public' . $filePathImage[1];
             $pathVideo = '/public' . $filePathVideo[1];
+            $pathFile = '/public' . $filePathFile[1];
 
-            if (!Storage::delete($pathImage) || !Storage::delete($pathVideo)) {
+            if (!Storage::delete($pathImage) || !Storage::delete($pathVideo) | !Storage::delete($pathFile)) {
                 return redirect()->route('modules.index')->with('error', 'Problem');
             }
         }

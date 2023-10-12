@@ -6,7 +6,7 @@
                 <span class="text-white">
                     <i class="fas fa-bars"></i>
                 </span>
-                <span class="capitalize ml-2 text-white text-sm">All categories</span>
+                <span class="capitalize ml-2 text-white text-sm">All Categories</span>
                 <div class="absolute w-full left-0 top-full bg-white shadow-md py-3 divide-y divide-gray-300 divide-dashed opacity-0 group-hover:opacity-100 transition duration-300 invisible group-hover:visible">
                     <!-- single category -->
                     <a href="#" class="flex items-center px-6 py-3 hover:bg-gray-100 transition">
