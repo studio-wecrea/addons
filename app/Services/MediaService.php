@@ -13,4 +13,13 @@ class MediaService
 
         return $link;
     }
+
+    public static function uploadFile($file)
+    { 
+        $filename = $file->hashName();
+        $file->storeAs('public/files', $filename);
+        $link = url('storage/files/' . $filename);
+
+        return $link;
+    }
 }

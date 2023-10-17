@@ -117,27 +117,34 @@
 
     <!-- wishlist -->
     <div class="col-span-9 space-y-4">
+       <wishlist></wishlist>
+        <!-- wishlist start -->
+         
+        <div class="col-span-9 space-y-4">
+        <div class="py-4 flex items-center gap-3">
+        <span class="text-sm text-gray-400">
+            <i class="fas fa-chevron-right"></i>
+        </span>
+        <p class="text-sm text-gray-600 font-medium">Wishlist</p>
+        </div>
+
         @foreach($modules as $module)
         <!-- single wishlist -->
         <div class="flex items-center justify-between gap-p p-4 border border-gray-200 rounded">
             <!-- wishlist image -->
             <div class="w-28 flex-shrink-0 ml-4">
-                <img src="{{$module->image}}" class="h-28 w-28 object-cover rounded">
+                <img src="{{ $module->image }}" class="h-28 w-28 object-cover rounded">
             </div>
             <!-- wishlist image end -->
 
             <!-- wishlist content -->
             <div class="w-1/3">
-                <h2 class="text-md text-gray-800 font-medium uppercase">
-                    {{$module->name}}
+                <h2 class="text-md text-gray-800 font-medium uppercase"> {{$module->name}}
                 </h2>
                 <p class="text-sm text-gray-500 text-sm">
                 Platform:
-                    @foreach($platforms as $platform)
-                    @if($module->platform_id === $platform->id)
-                    <span class="text-sm text-yellow-600">{{$platform->name}}</span>
-                    @endif
-                    @endforeach
+                    <span class="text-sm text-yellow-600">{{$module->platform_id}}</span>
+                
                 </p>
             </div>
             
@@ -151,8 +158,14 @@
         </div>
         <!-- single wishlist end -->
         @endforeach
+    
     </div>
     <!-- wishlist end -->
+        
+    </div>
+    </div>
+    <!-- wishlist end -->
+   
     </div>
     <!-- Account wrapper end -->
 

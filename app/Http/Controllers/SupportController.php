@@ -45,4 +45,9 @@ class SupportController extends Controller
     {
         return view ('support.index');
     }
+
+    public function contact() 
+    {
+        
+    }
 }

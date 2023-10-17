@@ -28,11 +28,3 @@ use Illuminate\Support\Facades\Route;
     Route::get('/cart', [ModuleController::class, 'cart'])
         ->name('modules.cart');
 
-    Route::post('/checkout', [ModuleController::class, 'checkout'])
-        ->name('modules.checkout');
-
-    Route::get('/checkout-success', [ModuleController::class, 'success'])
-        ->name('modules.checkout-success');
-
-    Route::get('/checkout-cancel', [ModuleController::class, 'cancel'])
-        ->name('modules.checkout-cancel');

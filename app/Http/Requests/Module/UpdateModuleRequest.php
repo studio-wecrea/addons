@@ -33,7 +33,8 @@ class UpdateModuleRequest extends FormRequest
             'price' => ['nullable'],
             'platform' => ['nullable'],
             'image' => ['nullable', 'mimes:jpg,jpeg,png', 'max:2048'],
-            'video' => ['nullable', 'mimes:mp4,x-flv,x-mpegURL,MP2T,3gpp,quicktime,x-msvideo,x-ms-wmv', 'max:9000000']
+            'video' => ['nullable', 'mimes:mp4,x-flv,x-mpegURL,MP2T,3gpp,quicktime,x-msvideo,x-ms-wmv', 'max:9000000'],
+            'file' => ['nullable', 'mimes:zip', 'max:9000000']
         ];
     }
 }

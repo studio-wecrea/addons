@@ -86,8 +86,7 @@ class CustomerController extends Controller
 
     public function profileUpdate(UpdateProfileRequest $request, $id) {
         $vdata = $request->validated();
-        $user = Auth::guard('webcustomers')->user();
-        
+        $user = Auth::guard('webcustomers')->user(); 
         $customer = Customer::findOrFail($id);
 
         if($user->id === $customer->id){

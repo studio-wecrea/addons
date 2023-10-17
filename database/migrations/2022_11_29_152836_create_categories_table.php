@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string("name", 256);
             $table->string("description", 256);
             $table->string("image")->nulllable(true);
-            $table->integer('parent')->unsigned()->nullable()->after('id');
+            $table->integer('parent')->unsigned()->nullable();
             $table->timestamps();
         });
     }

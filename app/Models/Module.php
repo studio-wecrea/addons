@@ -27,6 +27,7 @@ class Module extends Model
         'tags',
         'image',
         'video',
+        'file',
         'platform_id'
     ];
 
@@ -38,6 +39,7 @@ class Module extends Model
         'tags' => null,
         'image' => null,
         'video' => null,
+        'file' => null,
         
     ];
 
@@ -49,6 +51,12 @@ class Module extends Model
         return $this->belongsTo(Platform::class, "id_platform");
     }
 
+    public function platforms()
+    {
+        return $this->belongsTo(Platform::class, "platform_id");
+    }
+    
+
     public function categories() 
     {
         return $this->belongsToMany(Category::class, 'categories_modules', 'module_id', 'category_id');
@@ -59,6 +67,16 @@ class Module extends Model
     public function moduleCategory()
     {
         return $this->belongsToMany(Category::class, "id_category")->withPivot('name');
+    }
+
+    public function customers()
+    {
+        return $this->belongsToMany(Customer::class, "id_customer");
+    }
+
+    public function customerWishlist()
+    {
+        return $this->belongsToMany(Wishlist::class, "id_customer");
     }
 
     /**
@@ -109,6 +127,11 @@ class Module extends Model
     public function invoices()
     {
         return $this->hasMany(Invoice::class, 'invoice_id');
+    }
+
+    public function getFormattedPriceAttribute()
+    {
+        return str_replace('.', ',', $this->price / 100) . ' €';
     }
 
 
