@@ -10,10 +10,32 @@ module.exports = {
     ],
 
     theme: {
+        screens:{
+            sm: '576px',
+            md: '768px',
+            lg:'992px',
+            xl:'1200px',
+        },
+        container:{
+            center: true,
+            padding: '1rem',
+            
+        },
         extend: {
+            
             fontFamily: {
-                sans: ['Nunito', ...defaultTheme.fontFamily.sans],
+                poppins: "'Poppins', sans-serif",
+                roboto: "'Roboto', sans-serif;",
             },
+            colors:{
+                'primary': '#EAB308'
+            }
+        },
+    },
+    variants: {
+        extend: {
+            display: ['group-hover'],
+            visibility: ['group-hover'],
         },
     },
 

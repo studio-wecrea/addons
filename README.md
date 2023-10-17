@@ -13,3 +13,8 @@ Assurez vous d'avoir créé un alias pour utiliser Sail de Laravel. Pour cela, l
 Lancez maintenant la commande `npm install` pour installer les dépendances liées à VueJS.
 
 Vous pouvez désormais lancer le projet en local via la commande `sail up -d && npm run dev`
+
+
+## Installation de Laravel Shopping Cart
+
+Lancer la commande 'composer require "darryldecode/cart"' pour installer le paquet.

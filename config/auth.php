@@ -40,6 +40,14 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'webcustomers' => [
+            'driver' => 'session',
+            'provider' => 'customers',
+        ],
+        'webemployees' => [
+            'driver' => 'session',
+            'provider' => 'employees',
+        ],
     ],
 
     /*
@@ -59,11 +67,24 @@ return [
     |
     */
 
-    'providers' => [
+    /*'providers' => [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
-        ],
+        ],*/
+        'providers' => [
+            'users' => [
+                'driver' => 'eloquent',
+                'model' => App\Models\User::class,
+            ],
+            'customers' => [
+                'driver' => 'eloquent',
+                'model' => App\Models\Customer::class,
+            ],
+            'employees' => [
+                'driver' => 'eloquent',
+                'model' => App\Models\Employee::class,
+            ],
 
         // 'users' => [
         //     'driver' => 'database',
@@ -89,6 +110,18 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'customers' => [
+            'provider' => 'customers',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'employees' => [
+            'provider' => 'customers',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,
