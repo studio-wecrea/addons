@@ -189,18 +189,32 @@ const btnList = document.getElementById('listBtn');
 const gridPanel = document.getElementById('gridPanel');
 const listPanel = document.getElementById('listPanel');
 
-btnGrid.onclick = function() {
-  gridPanel.classList.add('active');
-  gridPanel.classList.remove('hidden');
-  listPanel.classList.add('hidden');
-  listPanel.classList.remove('active');
-}
+if(btnGrid && btnList){
+  btnGrid.onclick = function() {
+    gridPanel.classList.add('active');
+    gridPanel.classList.remove('hidden');
+    listPanel.classList.add('hidden');
+    listPanel.classList.remove('active');
 
-btnList.onclick = function() {
-  listPanel.classList.add('active');
-  listPanel.classList.remove('hidden');
-  gridPanel.classList.add('hidden');
-  gridPanel.classList.remove('active');
+    btnGrid.classList.remove("border-gray-300", "text-gray-600","bg-white");
+    btnGrid.classList.add("border-primary", "text-white","bg-yellow-500");
+
+    btnList.classList.add("border-gray-300", "text-gray-600","bg-white");
+    btnList.classList.remove("border-primary", "text-white","bg-yellow-500");
+  }
+
+  btnList.onclick = function() {
+    listPanel.classList.add('active');
+    listPanel.classList.remove('hidden');
+    gridPanel.classList.add('hidden');
+    gridPanel.classList.remove('active');
+
+    btnList.classList.remove("border-gray-300", "text-gray-600","bg-white");
+    btnList.classList.add("border-primary", "text-white","bg-yellow-500");
+
+    btnGrid.classList.add("border-gray-300", "text-gray-600","bg-white");
+    btnGrid.classList.remove("border-primary", "text-white","bg-yellow-500");
+  }
 }
 
 /*** 
@@ -213,19 +227,21 @@ window.onload = function viewPassword()
   {
     const inputPassword = document.getElementById('password');
     const inputPassword_repetition = document.getElementById('password_confirmation');
-    if(inputPassword.type == "password")
-    {
-      inputPassword.type = "text";
-      inputPassword_repetition.type = "text";
-      document.getElementById('eye-close').style.display="block";
-      document.getElementById('eye-open').style.display="none";
-
-    }
-    else{
-      inputPassword.type = "password";
-      inputPassword_repetition.type = "password";
-      document.getElementById('eye-close').style.display="none";
-      document.getElementById('eye-open').style.display="block";
+    if(inputPassword){
+      if(inputPassword.type == "password")
+      {
+        inputPassword.type = "text";
+        inputPassword_repetition.type = "text";
+        document.getElementById('eye-close').style.display="block";
+        document.getElementById('eye-open').style.display="none";
+  
+      }
+      else{
+        inputPassword.type = "password";
+        inputPassword_repetition.type = "password";
+        document.getElementById('eye-close').style.display="none";
+        document.getElementById('eye-open').style.display="block";
+      }
     }
   }
 

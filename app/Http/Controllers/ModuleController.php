@@ -22,30 +22,51 @@ class ModuleController extends Controller
     public function index(Request $request)
     {
         $customer = Auth::guard('webcustomers')->user();
-        $modules = Module::orderBy('name')->get();
         $categories = Category::withCount('modules')->get();
         $platforms = Platform::all();
         $selectedCategories = $request->input('categories', []);
         $selectedPlatforms = $request->input('platforms', []);
+        $minPrice = $request->input('minprice');
+        $maxPrice = $request->input('maxprice');
+
+        $hasFilters = !empty($selectedCategories) ||
+        !empty($selectedPlatforms) ||
+        !empty($minPrice) ||
+        !empty($maxPrice);
        
         $filteredModules = FilteringService::multiFiltering($request);
 
-        // $modulesnumbers = Category::withCount('modules')->get();
+        if((empty($filteredModules) || $filteredModules->total() == 0) && $hasFilters === false){
+            $modules = Module::orderBy('name')->get();
+        }else{
+            $modules = $filteredModules;
+        }
 
-        return view('modules.index', compact('customer','modules', 'categories', 'platforms', 'filteredModules', 'selectedCategories', 'selectedPlatforms'));
+        return view('modules.index', compact('customer','modules', 'categories', 'platforms', 'selectedCategories', 'selectedPlatforms', 'minPrice', 'maxPrice'));
+    }
 
-        // if(empty($request->all()) )
-        // {
-        //     $modules = Module::orderBy('name')->get();
-        // }
-        // else
-        // {
-        //     $modules = FilteringService::filterByCategory($request);
-        // }
+    public function search(Request $request)
+    {
+        $customer = Auth::guard('webcustomers')->user();
         
-        // $customer = Auth::guard('webcustomers')->user();
-        // return view('modules.index')->with(['customer' => $customer,
-        // 'modules'=>$modules]);
+        $categories = Category::withCount('modules')->get();
+        $platforms = Platform::all();
+
+        $selectedCategories = $selectedPlatforms = [];
+        $minPrice = $maxPrice = null;
+
+        $page = $request->input("page", 10);
+        $search_sentence = $request->input("text");
+        $search_sentence = htmlentities($search_sentence);
+        $search_sentence = preg_replace("/([^a-zA-Z0-9\ \-\.])/", "", $search_sentence);
+        $search_sentence = str_replace(" ", "%", $search_sentence);
+        $search_sentence = strtolower($search_sentence);
+
+        $query = Module::whereRaw("LOWER(name) LIKE '%" . $search_sentence . "%'")
+        ->orWhereRaw("LOWER(description) LIKE '%" . $search_sentence . "%'");
+        $modules  = $query->paginate((int) $page);
+
+        return view('modules.index', compact('customer','modules', 'categories', 'platforms', 'selectedCategories', 'selectedPlatforms', 'minPrice', 'maxPrice'));
     }
 
     /**

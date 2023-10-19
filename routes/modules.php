@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Route;
     Route::get('/index', [ModuleController::class, 'index'])
         ->name('modules.index');
 
+    Route::get('/search', [ModuleController::class, 'search'])
+        ->name('modules.search');
+
     Route::get('/create', [ModuleController::class, 'create'])
         ->name('modules.create');
 

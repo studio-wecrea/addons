@@ -21,8 +21,9 @@ class Purchase extends Model
         'status',
         'total_price',
         'session_id',
-        'customer_id'
-        
+        'customer_id',
+        'reference',
+        'uniq_id',
     ];
 
     protected $attributes = [

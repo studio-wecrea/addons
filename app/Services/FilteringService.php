@@ -18,32 +18,32 @@ class FilteringService
         $maxPrice = $request->input('maxprice');
         $perPage = 10;
 
-     
+        // on souhaite les modules
+        $query = Module::select("modules.*");
 
-        $filteredModules = Module::join('categories_modules', 'modules.id', '=', 'categories_modules.module_id')
-        ->join('categories', 'categories.id', '=', 'categories_modules.category_id')
-        ->join('platforms', 'modules.platform_id', '=', 'platforms.id')
-        ->where(function ($query) use ($selectedCategories, $selectedPlatforms, $minPrice, $maxPrice) {
-            $query->whereIn('categories.id', $selectedCategories)
-                  ->orWhereIn('platforms.id', $selectedPlatforms);
-                  if ($minPrice !== null || $maxPrice !== null) {
-                    $query->whereBetween('modules.price', [$minPrice, $maxPrice]);
-                }
-        })
-        ->distinct()
-        ->paginate($perPage, ['modules.*']);
+        if(!empty($selectedCategories)){
+            // on a besoin des catégories en relation avec les modules
+            $query->join('categories_modules', 'modules.id', '=', 'categories_modules.module_id');
 
-        // $filteredModules = Module::whereHas('categories', function ($query) use ($selectedCategories) {
-        //     $query->whereIn('categories.id', $selectedCategories);
-        // })
-        // ->whereHas('platforms', function ($query) use ($selectedPlatforms) {
-        //     $query->whereIn('id', $selectedPlatforms);
-        // })
-        // ->get();
+            if(!empty($selectedPlatforms)){
+                // On filtre les catégories et les plateformes
+                $query->where(function ($subquery) use ($selectedCategories, $selectedPlatforms) {
+                    $subquery->whereIn('categories_modules.category_id', $selectedCategories)
+                        ->orWhereIn('modules.platform_id', $selectedPlatforms);
+                });
+            }else{
+                $query->whereIn('categories_modules.category_id', $selectedCategories);
+            }
+        }
 
-        // Handle the filtered data as needed...
+        // si on veut filtrer les prix
+        if(!empty($minPrice) && !empty($maxPrice)){
+            $query->whereBetween('modules.price', [(int) $minPrice, (int) $maxPrice]);
+        }
 
-        return $filteredModules;
+        $query->distinct();
+
+        return $query->paginate($perPage);
     }
 
     public static function filterByCategory(Request $request)

@@ -8,6 +8,7 @@ use Error;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Support\Str;
 
 class StripeController extends Controller
 {
@@ -47,6 +48,9 @@ class StripeController extends Controller
         $purchase->total_price = $totalPrice;
         $purchase->session_id = $session->id;
         $purchase->customer_id = $customer->id;
+
+        $purchase->reference = strtoupper(Str::random(8));
+        $purchase->uniq_id = Str::uuid();
         // if((!empty($customer))){
         //     $purchase->customer_id = $session->customer->id;
         // }
@@ -82,11 +86,11 @@ class StripeController extends Controller
             if ($order->status === 'unpaid') {
                 $order->status = 'paid';
                 $order->save();
-
-                
             }
 
-            return view('stripe.checkout-success')->with(['customer'=> $customer, 'purchases' => $purchases, 'order' => $order]);
+            return redirect(route("orders.confirmation", ["uniq_id" => $order->uniq_id]));
+
+            //return view('stripe.checkout-success')->with(['customer'=> $customer, 'purchases' => $purchases, 'order' => $order]);
         // } catch (\Exception $e) {
         //     throw new NotFoundHttpException();
         // }

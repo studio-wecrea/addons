@@ -65,4 +65,24 @@ class OrderController extends Controller
         $purchases = Purchase::where('customer_id', $customer->id)->where('status', '=', 'unpaid')->orderBy('created_at', 'DESC')->get();
         return view ('orders.cancellations')->with(['customer'=>$customer, 'purchases'=>$purchases]);
     }
+
+    public function confirmation(Request $request, $uniq_id)
+    {
+        dd("JE SUIS LA $uniq_id");
+
+        $customer = Auth::guard('webcustomers')->user();
+        $Purchase = Purchase::where("uniq_id", $uniq_id)->first();
+
+        if(empty($Purchase)){
+            abort(404);
+        }
+
+        if($Purchase->customer_id !== $customer->id){
+            abort(403);
+        }
+
+        $Module = Module::find($Purchase->module_id);
+        
+        return view("orders.confirmation", compact("Purchase", "Module"));
+    }
 }

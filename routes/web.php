@@ -35,9 +35,9 @@ Route::prefix('platforms')->group(base_path('routes/platforms.php'));
 Route::prefix('categories')->group(base_path('routes/categories.php'));
 Route::prefix('reviews')->group(base_path('routes/reviews.php'));
 Route::prefix('support')->group(base_path('routes/support.php'));
-Route::prefix('customers')->group(base_path('routes/customers.php'));
+Route::prefix('customers')->middleware('isCustomer')->group(base_path('routes/customers.php'));
 Route::prefix('employees')->group(base_path('routes/employees.php'));
-Route::prefix('admin')->group(base_path('routes/admin.php'));
+Route::prefix('admin')->middleware('isAdmin')->group(base_path('routes/admin.php'));
 Route::prefix('orders')->group(base_path('routes/orders.php'));
 
 Route::prefix('cart')->group(base_path('routes/cart.php'));

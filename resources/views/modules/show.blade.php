@@ -18,7 +18,7 @@
     <div class="container grid grid-cols-2 gap-8">
         <!-- module image -->
         <div>
-            <img src="{{ url('/images/modules/module-1.jpg') }}" class="w-full h-50 rounded">
+            <img src="{{ $module->image }}" class="w-full h-50 rounded">
         </div>
         <!-- module image end -->
 

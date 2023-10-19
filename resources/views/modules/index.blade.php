@@ -29,8 +29,8 @@
                         @foreach($categories as $category)
                         <!-- single category -->
                         <div class="flex items-center">
-                            <input type="checkbox" name="categories[]" id="categories" onchange="sub()" value="{{ $category->id }}" {{ in_array($category->id, $selectedCategories) ? 'checked' : '' }} class="text-yellow-500 focus:ring-0 rounded-sm cursor-pointer">
-                            <label for="categories" class="text-sm text-gray-600 ml-3 cursor-pointer">{{ $category->name }}</label>
+                            <input type="checkbox" name="categories[]" id="categories{{ $category->id }}" onchange="sub()" value="{{ $category->id }}" {{ in_array($category->id, $selectedCategories) ? 'checked' : '' }} class="text-yellow-500 focus:ring-0 rounded-sm cursor-pointer">
+                            <label for="categories{{ $category->id }}" class="text-sm text-gray-600 ml-3 cursor-pointer">{{ $category->name }}</label>
                             <div class="ml-auto text-gray-600 text-sm">({{$category->modules_count}})</div>
 
                         </div>
@@ -46,9 +46,9 @@
                 <div class="pt-4">
                     <h3 class="text-md text-gray-800 mb-3 uppercase font-medium">price</h3>
                     <div class="mt-4 flex items-center">
-                        <input type="text" name="minprice" value="" oninput="checkInputs()" class="w-full border-gray-300 focus:border-yellow-500 focus:ring:0 px-3 py-1 text-gray-600 text-sm shadow-sm rounded" placeholder="min">
+                        <input type="text" name="minprice" value="{{$minPrice}}" oninput="checkInputs()" class="w-full border-gray-300 focus:border-yellow-500 focus:ring:0 px-3 py-1 text-gray-600 text-sm shadow-sm rounded" placeholder="min">
                         <span class="mx-3 text-gray-500">-</span>
-                        <input type="text" name="maxprice" value="" oninput="checkInputs()" class="w-full border-gray-300 focus:border-yellow-500 focus:ring:0 px-3 py-1 text-gray-600 text-sm shadow-sm rounded" placeholder="max">
+                        <input type="text" name="maxprice" value="{{$maxPrice}}" oninput="checkInputs()" class="w-full border-gray-300 focus:border-yellow-500 focus:ring:0 px-3 py-1 text-gray-600 text-sm shadow-sm rounded" placeholder="max">
                     </div>
                 </div>
                 <!-- price filter end -->
@@ -108,8 +108,8 @@
                         @foreach($platforms as $platform)
                         <!-- single platform -->
                         <div class="flex items-center">
-                            <input type="checkbox" name="platforms[]" id="platforms" onchange="sub()" value="{{ $platform->id }}" {{ in_array($platform->id, $selectedPlatforms) ? 'checked' : '' }} class="text-yellow-500 focus:ring-0 rounded-sm cursor-pointer">
-                            <label for="platforms" class="text-sm text-gray-600 ml-3 cursor-pointer">{{$platform->name}}</label>
+                            <input type="checkbox" name="platforms[]" id="platforms{{ $platform->id }}" onchange="sub()" value="{{ $platform->id }}" {{ in_array($platform->id, $selectedPlatforms) ? 'checked' : '' }} class="text-yellow-500 focus:ring-0 rounded-sm cursor-pointer">
+                            <label for="platforms{{ $platform->id }}" class="text-sm text-gray-600 ml-3 cursor-pointer">{{$platform->name}}</label>
                         </div>
                         <!-- single platform end -->
                         @endforeach
@@ -385,7 +385,7 @@
                     <div id="gridBtn" class=" border border-primary w-10 h-9 flex items-center justify-center text-white bg-yellow-500 rounded cursor-pointer">
                         <i class="fas fa-th"></i>
                     </div>
-                    <div id="listBtn" class=" border border-gray-300 w-10 h-9 flex items-center justify-center text-gray-600 rounded cursor-pointer">
+                    <div id="listBtn" class=" border border-gray-300 w-10 h-9 flex items-center justify-center text-gray-600 bg-white rounded cursor-pointer">
                         <i class="fas fa-list"></i>
                     </div>
                 </div>
@@ -402,9 +402,8 @@
         <!-- sorting end -->
         <!-- module grid -->
         <div id="gridPanel" class="active grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- single module -->
-            @if(empty($filteredModules->all()))
-            @foreach($modules as $module)
+        <!-- single module -->
+        @forelse($modules as $module)
 
             <div class="bg-white shadow rounded overflow-hidden group">
                 <!-- module image -->
@@ -424,6 +423,13 @@
                     <a href="{{ route('modules.show', $module->id )}}">
                         <h4 class="uppercase font-medium text-md mb-2 text-gray-800 hover:text-yellow-500 transition">{{$module->name}}</h4>
                     </a>
+                    @foreach($platforms as $platform)
+                    @if($module->platform_id === $platform->id)
+                    <div>
+                        <p class="mb-2 text-sm text-gray-500 italic">{{$platform->name}}</p>
+                    </div>
+                    @endif
+                    @endforeach
                     <div class="flex items-baseline mb-1 space-x-2 font-roboto">
                         <p class="text-md text-yellow-900 font-semibold">{{$module->price}}€</p>
                         <p class="text-sm text-gray-400 line-through">{{$module->original_price}}€</p>
@@ -444,53 +450,13 @@
 
             </div>
             <!-- single module end -->
-            @endforeach
-            @endif
-            @if(!empty($filteredModules))
-            @foreach($filteredModules as $module)
-
-            <div class="bg-white shadow rounded overflow-hidden group">
-                <!-- module image -->
-                <div class="relative">
-                    <img src="{{ $module->image }}" class="object-cover lg:h-32 lg:w-72">
-                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100">
-                        <a href="#" class="text-white text-lg w-9 h-8 rounded-full bg-yellow-500 flex items-center justify-center hover:bg-gray-800 transition">
-                            <i class="fas fa-search"></i>
-                        </a>
-                        <heart-to-wishlist :module-id="{{ $module->id }}" class="bg-yellow-500"></heart-to-wishlist>
-                    </div>
-                </div>
-                <!-- module image end -->
-
-                <!-- module content -->
-                <div class="pt-4 pb-3 px-4">
-                    <a href="{{ route('modules.show', $module->id )}}">
-                        <h4 class="uppercase font-medium text-md mb-2 text-gray-800 hover:text-yellow-500 transition">{{$module->name}}</h4>
-                    </a>
-                    <div class="flex items-baseline mb-1 space-x-2 font-roboto">
-                        <p class="text-md text-yellow-900 font-semibold">{{$module->price}}€</p>
-                        <p class="text-sm text-gray-400 line-through">{{$module->original_price}}€</p>
-                    </div>
-                    <div class="flex items-center">
-                        <div class="flex gap-1 text-sm text-yellow-400">
-                            <span><i class="fas fa-star"></i></span>
-                            <span><i class="fas fa-star"></i></span>
-                            <span><i class="fas fa-star"></i></span>
-                            <span><i class="fas fa-star"></i></span>
-                            <span><i class="fas fa-star"></i></span>
-                        </div>
-                        <div class="text-xs text-gray-500 ml-3">(150)</div>
-                    </div>
-                </div>
-                <add-to-cart :module-id="{{ $module->id }}"></add-to-cart>
-                <!-- module content end -->
-
+            @empty
+            <div class="col-span-1 md:col-span-2 lg:col-span-3 flex justify-center items-center w-full h-full">
+                <p class="text-gray-400 italic">Aucun module ne correspond à votre recherche...</p>
             </div>
-            <!-- single module end -->
-            @endforeach
-            @endif
+            @endforelse
+            <!-- module grid end -->
         </div>
-        <!-- module grid end -->
         <!-- module list -->
 
 
@@ -516,8 +482,11 @@
                     </a>
                     <p class="text-sm text-gray-500 text-sm">
                         Platform:
-                        <span class="text-sm text-yellow-600">{{$module->platform_id}}</span>
-
+                    @foreach($platforms as $platform)
+                    @if($module->platform_id === $platform->id)
+                        <span class="text-sm text-yellow-600">{{$platform->name}}</span>
+                    @endif
+                    @endforeach
                     </p>
                 </div>
 
@@ -534,14 +503,6 @@
             <!-- single wishlist end -->
             
             @endforeach
-
-            
-            <!-- Pagination Example -->
-            <ul class="pagination">
-                <li><a href="?page=1">{{$filteredModules->links()}}</a></li>
-                <li><a href="?page=2">2</a></li>
-                <!-- Add more page links as needed -->
-            </ul>
 
         </div>
         <!-- module list end -->
@@ -563,7 +524,7 @@
             if (minPrice !== '' && maxPrice !== '') {
                 sub(); // Call the sub() function if both inputs are filled
             }
-        }, 500); // Adjust the delay as needed (e.g., 500 milliseconds)
+        }, 1500); // Adjust the delay as needed (e.g., 500 milliseconds)
     }
 
     function sub() {

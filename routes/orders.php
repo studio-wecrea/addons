@@ -20,3 +20,6 @@ Route::get('/history', [OrderController::class, 'history'])
 
 Route::get('/cancellations', [OrderController::class, 'cancellations'])
         ->name('orders.cancellations');
+
+Route::get('/confirmation/{uniq_id}', [OrderController::class, 'confirmation'])
+        ->name('orders.confirmation');
