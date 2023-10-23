@@ -68,21 +68,22 @@ class OrderController extends Controller
 
     public function confirmation(Request $request, $uniq_id)
     {
-        dd("JE SUIS LA $uniq_id");
-
-        $customer = Auth::guard('webcustomers')->user();
-        $Purchase = Purchase::where("uniq_id", $uniq_id)->first();
-
-        if(empty($Purchase)){
-            abort(404);
-        }
-
-        if($Purchase->customer_id !== $customer->id){
-            abort(403);
-        }
-
-        $Module = Module::find($Purchase->module_id);
         
-        return view("orders.confirmation", compact("Purchase", "Module"));
+
+        // $customer = Auth::guard('webcustomers')->user();
+        // $Purchase = Purchase::where("uniq_id", $uniq_id)->first();
+
+        // if(empty($Purchase)){
+        //     abort(404);
+        // }
+
+        // if($Purchase->customer_id !== $customer->id){
+        //     abort(403);
+        // }
+
+        // $Module = Module::find($Purchase->module_id);
+        
+        // return view("orders.confirmation", compact("Purchase", "Module"));
+        return view("orders.confirmation");
     }
 }
