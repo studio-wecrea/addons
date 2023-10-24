@@ -408,7 +408,7 @@
             <div class="bg-white shadow rounded overflow-hidden group">
                 <!-- module image -->
                 <div class="relative">
-                    <img src="{{ $module->image }}" class="object-cover lg:h-32 lg:w-72">
+                    <img src="{{ $module->image }}" class="object-cover lg:h-32 lg:w-72" alt="logo du module">
                     <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100">
                         <a href="#" class="text-white text-lg w-9 h-8 rounded-full bg-yellow-500 flex items-center justify-center hover:bg-gray-800 transition">
                             <i class="fas fa-search"></i>

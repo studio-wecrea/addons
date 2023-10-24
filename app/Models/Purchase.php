@@ -22,6 +22,7 @@ class Purchase extends Model
         'total_price',
         'session_id',
         'customer_id',
+        'module_id',
         'reference',
         'uniq_id',
     ];

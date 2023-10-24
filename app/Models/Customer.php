@@ -31,6 +31,9 @@ class Customer extends Authenticatable
         'phone',
         'role',
         'address',
+        'postal_code',
+        'city',
+        'country',
         'image',
         'password',
         

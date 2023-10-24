@@ -21,6 +21,9 @@ return new class extends Migration
             $table->string('password',64);
             $table->string('phone', 12)->nullable(true);
             $table->string('address', 256)->nullable(true);
+            $table->string('postal_code', 6)->nullable(true);
+            $table->string('city', 256)->nullable(true);
+            $table->string('country', 256)->nullable(true);
             $table->enum('role',['customer','admin','manager'])->default("customer");
             $table->string('image')->nullable(true);
             $table->timestamps();

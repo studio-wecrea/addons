@@ -48,7 +48,7 @@ class StripeController extends Controller
         $purchase->total_price = $totalPrice;
         $purchase->session_id = $session->id;
         $purchase->customer_id = $customer->id;
-
+        $purchase->module_id = $cartContent->associatedModel->id;
         $purchase->reference = strtoupper(Str::random(8));
         $purchase->uniq_id = Str::uuid();
         // if((!empty($customer))){

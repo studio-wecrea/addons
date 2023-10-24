@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use App\Models\Module;
 use App\Models\Platform;
 use App\Models\Purchase;
@@ -70,20 +71,23 @@ class OrderController extends Controller
     {
         
 
-        // $customer = Auth::guard('webcustomers')->user();
-        // $Purchase = Purchase::where("uniq_id", $uniq_id)->first();
+        $customer = Auth::guard('webcustomers')->user();
+        $purchases = Purchase::where("uniq_id", $uniq_id)->first();
 
-        // if(empty($Purchase)){
-        //     abort(404);
-        // }
+        if(empty($purchases)){
+            abort(404);
+        }
 
-        // if($Purchase->customer_id !== $customer->id){
-        //     abort(403);
-        // }
+        if($purchases->customer_id !== $customer->id){
+            abort(403);
+        }
 
-        // $Module = Module::find($Purchase->module_id);
+        $module = Module::find($purchases->module_id);
+        $customers = Customer::find($purchases->customer_id);
+     
         
-        // return view("orders.confirmation", compact("Purchase", "Module"));
-        return view("orders.confirmation");
+        
+        return view("orders.confirmation", compact("purchases", "module", "customers"));
+    
     }
 }

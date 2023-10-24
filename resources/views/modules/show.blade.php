@@ -18,7 +18,7 @@
     <div class="container grid grid-cols-2 gap-8">
         <!-- module image -->
         <div>
-            <img src="{{ $module->image }}" class="w-full h-50 rounded">
+            <img src="{{ $module->image }}" class="w-full h-50 rounded" alt="logo du module">
         </div>
         <!-- module image end -->
 
@@ -89,7 +89,7 @@
     </div>
 
     <!-- module view end -->
-    <div class=" container pb-16">
+    <div class="container pb-16">
     <div class="sm:hidden">
                 <label for="tabSelect" class="sr-only">Select a tab</label>
                 <!-- Use an "onChange" listener to redirect the user to the selected tab URL. -->

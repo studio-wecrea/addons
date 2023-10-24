@@ -10,7 +10,7 @@
                 <div class="absolute w-full left-0 top-full bg-white shadow-md py-3 divide-y divide-gray-300 divide-dashed opacity-0 group-hover:opacity-100 transition duration-300 invisible group-hover:visible">
                     <!-- single category -->
                     <a href="#" class="flex items-center px-6 py-3 hover:bg-gray-100 transition">
-                        <img src="{{ url('/images/icons/icons8-ordinateur-portable-24.png') }}" class="w-5 h-5 object-contain">
+                        <img src="{{ url('/images/icons/icons8-ordinateur-portable-24.png') }}" class="w-5 h-5 object-contain" alt="logode categories">
                         <span class="ml-6 text-gray-600 text-sm">Design & Navigation</span>
                     </a>
                     <!-- single category end-->
